@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>TicketGo V3 测试版</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f5f7fb;color:#172033}button,input{font:inherit}.wrap{max-width:520px;margin:auto;min-height:100vh}.hidden{display:none!important}
+.auth{min-height:100vh;padding:40px 22px;background:linear-gradient(150deg,#071a42,#175cff 55%,#7441ef);color:white;display:flex;align-items:center}.authbox{width:100%}.brand{font-size:31px;font-weight:900}.tag{opacity:.75;margin:8px 0 26px}.panel{background:white;color:#172033;padding:22px;border-radius:24px}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#f0f3f8;padding:4px;border-radius:12px}.tabs button{border:0;background:transparent;padding:10px;border-radius:9px}.tabs .on{background:white;color:#175cff;font-weight:800}.field{margin-top:14px}.field label{font-size:12px;color:#768196;display:block;margin-bottom:6px}.field input{width:100%;padding:14px;border:1px solid #dfe4ec;border-radius:11px}.code{display:flex;gap:8px}.code input{flex:1}.code button{border:0;border-radius:11px;padding:0 12px;background:#edf3ff;color:#175cff}.primary{border:0;background:#175cff;color:#fff;width:100%;padding:14px;border-radius:12px;font-weight:800;margin-top:16px}.note{font-size:11px;color:#8792a4;line-height:1.55;margin-top:12px}
+.app{padding-bottom:72px}.head{background:linear-gradient(135deg,#175cff,#7540ee);color:white;padding:20px 17px 18px;border-radius:0 0 25px 25px}.headtop{display:flex;justify-content:space-between;align-items:center}.logo{font-size:22px;font-weight:900}.search{background:white;color:#8a95a7;margin-top:15px;padding:13px;border-radius:13px}.hero{margin:16px;background:linear-gradient(135deg,#172a56,#3268db);color:white;padding:22px;border-radius:20px}.hero h1{margin:7px 0}.section{padding:0 16px;margin-top:18px}.section h2{font-size:18px}.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.cat{background:white;padding:15px 5px;border-radius:16px;text-align:center;box-shadow:0 4px 15px #182b4810}.cat b{font-size:25px;display:block;margin-bottom:5px}.card,.box{background:white;border-radius:17px;margin:12px 0;padding:15px}.eventpic{height:125px;border-radius:14px;background:linear-gradient(135deg,#6737d8,#d64eb4);color:white;padding:16px;display:flex;align-items:flex-end;font-size:21px;font-weight:800}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.muted{color:#758197;font-size:12px;line-height:1.7}.price{font-weight:900;color:#ed4d4d;font-size:19px}.small{border:0;background:#175cff;color:white;padding:9px 14px;border-radius:10px}.page{display:none}.page.on{display:block}.title{font-size:22px;font-weight:900;padding:20px 16px 8px}
+.profile{padding:0 16px}.profiletop{background:linear-gradient(135deg,#175cff,#7540ee);color:white;padding:22px;border-radius:20px}.group{background:white;border-radius:17px;margin-top:14px;overflow:hidden}.gtitle{font-size:12px;color:#8a95a7;padding:12px 15px 5px}.group button{width:100%;border:0;background:white;padding:15px;border-bottom:1px solid #eef0f4;text-align:left;display:flex;justify-content:space-between}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:520px;width:100%;height:66px;background:white;border-top:1px solid #e6eaf0;display:grid;grid-template-columns:repeat(4,1fr)}.nav button{border:0;background:white;color:#8994a6}.nav .on{color:#175cff}.nav b{display:block;font-size:20px}
+.modal{display:none;position:fixed;inset:0;background:#0007;z-index:20;align-items:flex-end;justify-content:center}.modal.on{display:flex}.sheet{max-width:520px;width:100%;background:white;padding:20px;border-radius:24px 24px 0 0}.ticket{padding:14px;border:1px solid #dfe4ec;border-radius:12px;margin:10px 0;display:flex;justify-content:space-between}.ticket.on{border:2px solid #175cff;background:#f3f7ff}.toast{display:none;position:fixed;z-index:50;left:50%;top:47%;transform:translate(-50%,-50%);background:#121a2aee;color:white;padding:13px 18px;border-radius:11px;font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section id="auth" class="auth"><div class="authbox"><div class="brand">🎫 TicketGo</div><div class="tag">登录后才可以抢票</div><div class="panel">
+<div class="tabs"><button id="lt" class="on" onclick="tab('login')">登录</button><button id="rt" onclick="tab('register')">注册</button></div>
+<div class="field"><label>邮箱</label><input id="email" type="email" placeholder="name@example.com"></div>
+<div id="reg" class="hidden">
+<div class="field"><label>邮箱验证码</label><div class="code"><input id="otp" maxlength="6" placeholder="请输入验证码"><button onclick="sendCode()">发送验证码</button></div></div>
+<div class="field"><label>设置密码</label><input id="newpass" type="password" placeholder="至少 8 位"></div></div>
+<div id="loginpass" class="field"><label>密码</label><input id="pass" type="password" placeholder="请输入密码"></div>
+<button id="authbtn" class="primary" onclick="enter()">登录 TicketGo</button>
+<div class="note">测试版：为了让你现在直接测试，邮箱验证码会显示在页面提示中；正式上线会改成服务器发送真实邮件，验证码不会暴露在前端。</div>
+</div></div></section>
+
+<main id="app" class="app hidden">
+<section id="home" class="page on"><header class="head"><div class="headtop"><div class="logo">🎫 TicketGo</div><span>购票平台</span></div><div class="search">🔍 搜索活动、机票、高铁、酒店...</div></header>
+<div class="hero"><small>ONE PLATFORM · MANY EXPERIENCES</small><h1>发现精彩 · 快速抢票</h1><div>出行 / 娱乐 / 酒店 / 本地生活</div></div>
+<div class="section"><h2>六大分类</h2><div class="cats">
+<div class="cat" onclick="msg('进入机票')"><b>✈️</b>机票</div><div class="cat" onclick="msg('进入演唱会')"><b>🎵</b>演唱会</div><div class="cat" onclick="msg('进入高铁')"><b>🚄</b>高铁</div><div class="cat" onclick="msg('进入酒店')"><b>🏨</b>酒店</div><div class="cat" onclick="msg('进入足浴')"><b>♨️</b>足浴</div><div class="cat" onclick="msg('进入酒吧')"><b>🍸</b>酒吧</div>
+</div></div>
+<div class="section"><h2>热门活动</h2><div class="card"><div class="eventpic">城市音乐之夜</div><div class="row" style="margin-top:12px"><div class="muted">2026/12/20 19:30<br>城市体育馆</div><div class="price">$80起</div></div><button class="small" style="margin-top:10px" onclick="ticket()">立即抢票</button></div></div></section>
+
+<section id="events" class="page"><div class="title">活动列表</div><div class="section"><div class="card"><div class="eventpic">城市音乐之夜</div><p class="muted">演唱会 · 2026/12/20</p><button class="small" onclick="ticket()">活动详情 / 选票</button></div><div class="box"><b>✈️ 航班票务</b><p class="muted">选择出发地、目的地和日期</p><button class="small" onclick="msg('机票搜索演示')">查询</button></div></div></section>
+
+<section id="orders" class="page"><div class="title">我的订单</div><div class="section"><div id="emptyOrder" class="box"><b>暂无真实订单</b><p class="muted">测试下单后，订单会显示在这里。</p></div><div id="testOrder" class="box hidden"><div class="row"><b>城市音乐之夜</b><span style="color:#f08a00;font-size:12px">待支付</span></div><p class="muted">普通票 × 1 · $80</p><button class="small" onclick="pay()">模拟支付</button></div></div></section>
+
+<section id="profile" class="page"><div class="title">个人中心</div><div class="profile"><div class="profiletop"><div style="font-size:30px">👤</div><h2>TicketGo 用户</h2><div style="font-size:12px">📧 <span id="pem"></span> · 已验证 ✓</div></div>
+<div class="group"><div class="gtitle">账号与安全</div><button>👤 个人资料 <span>›</span></button><button>📧 邮箱验证 <span>已验证 ✓</span></button><button>🔐 修改密码 <span>›</span></button></div>
+<div class="group"><div class="gtitle">我的票务</div><button onclick="page('orders')">🎫 我的订单 <span>›</span></button><button onclick="msg('电子票将在支付成功后生成')">🎟️ 我的电子票 <span>›</span></button><button>↩️ 退款 / 售后 <span>›</span></button></div>
+<div class="group"><div class="gtitle">消费者账户</div><button>💰 账户余额 <span>$0.00 ›</span></button><button>📊 交易记录 <span>›</span></button><button>💳 支付方式 <span>›</span></button></div>
+<div class="group"><div class="gtitle">商家账户（审核后开放）</div><button>💵 销售收入 <span>›</span></button><button>🧾 待结算金额 <span>$0.00 ›</span></button><button>🏦 收款账户 <span>›</span></button><button>💸 申请结算 <span>›</span></button></div>
+<button class="primary" style="background:white;color:#e34b4b;margin-bottom:20px" onclick="logout()">退出登录</button></div></section>
+</main>
+
+<nav id="nav" class="nav hidden"><button class="on" onclick="page('home',this)"><b>⌂</b>首页</button><button onclick="page('events',this)"><b>🎫</b>活动</button><button onclick="page('orders',this)"><b>▣</b>订单</button><button onclick="page('profile',this)"><b>♙</b>个人</button></nav>
+</div>
+
+<div id="modal" class="modal"><div class="sheet"><button style="float:right;border:0;border-radius:50%;width:30px;height:30px" onclick="document.getElementById('modal').classList.remove('on')">×</button><h3>城市音乐之夜</h3><p class="muted">选择票种</p><div class="ticket on" onclick="sel(this)"><span>普通票</span><b>$80</b></div><div class="ticket" onclick="sel(this)"><span>VIP</span><b>$160</b></div><div class="ticket" onclick="sel(this)"><span>高级 VIP</span><b>$230</b></div><button class="primary" onclick="order()">提交订单</button></div></div>
+<div id="toast" class="toast"></div>
+<script>
+let mode='login',demoCode='';
+function tab(m){mode=m;lt.classList.toggle('on',m==='login');rt.classList.toggle('on',m==='register');reg.classList.toggle('hidden',m!=='register');loginpass.classList.toggle('hidden',m!=='login');authbtn.textContent=m==='login'?'登录 TicketGo':'验证邮箱并注册'}
+function sendCode(){let e=email.value.trim();if(!e.includes('@'))return msg('请输入正确邮箱');demoCode=String(Math.floor(100000+Math.random()*900000));msg('测试验证码：'+demoCode)}
+function enter(){let e=email.value.trim();if(!e.includes('@'))return msg('请输入正确邮箱');if(mode==='register'){if(!demoCode||otp.value!==demoCode)return msg('验证码不正确');if(newpass.value.length<8)return msg('密码至少 8 位')}else if(!pass.value)return msg('请输入密码');pem.textContent=e;auth.classList.add('hidden');app.classList.remove('hidden');nav.classList.remove('hidden');msg(mode==='login'?'登录成功':'邮箱验证成功，注册完成')}
+function logout(){auth.classList.remove('hidden');app.classList.add('hidden');nav.classList.add('hidden')}
+function page(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));document.getElementById(id).classList.add('on');if(b){document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on')}scrollTo(0,0)}
+function ticket(){modal.classList.add('on')}function sel(x){document.querySelectorAll('.ticket').forEach(y=>y.classList.remove('on'));x.classList.add('on')}
+function order(){modal.classList.remove('on');emptyOrder.classList.add('hidden');testOrder.classList.remove('hidden');msg('订单已创建：待支付');setTimeout(()=>page('orders'),700)}
+function pay(){msg('测试支付成功，电子票已生成')}
+function msg(s){toast.textContent=s;toast.style.display='block';setTimeout(()=>toast.style.display='none',2200)}
+</script>
+</body></html>
